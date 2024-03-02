@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+  title: "Coding Challenge: NL Search"
+  description: "Coding Challenge: Natural Language Search"
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /api/v1/documents:
+    post:
+      tags:
+      - Upload plain text document
+      summary: Returns newly created store ID of uploaded document
+      operationId: api_v1_documents_post
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upload_document_input'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload_document_output'
+        "400":
+          description: Failed. Bad input.
+      x-openapi-router-controller: swagger_server.controllers.upload_plain_text_document_controller
+  /api/v1/search:
+    get:
+      tags:
+      - Search documents using Natural Language
+      summary: "Returns answer to asked question including document store IDs, which\
+        \ contain text the answer is based on"
+      operationId: api_v1_search_get
+      parameters:
+      - name: query
+        in: query
+        description: "Question, e.g. 'When was Michael born?'"
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_output'
+        "400":
+          description: Failed. Bad input.
+      x-openapi-router-controller: swagger_server.controllers.search_documents_using_natural_language_controller
+  /api/v1/documents/{id}:
+    summary: Get content of a particular document from document store
+    get:
+      tags:
+      - Get document
+      summary: Returns content of a particular document from document store
+      operationId: api_v1_documents_id_get
+      parameters:
+      - name: id
+        in: path
+        description: ID of document
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_document_output'
+      x-openapi-router-controller: swagger_server.controllers.get_document_controller
+components:
+  schemas:
+    search_output:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_output_results'
+        query:
+          type: string
+          format: string
+        llm:
+          type: string
+          format: string
+      example:
+        query: query
+        llm: llm
+        results:
+        - score: 0.80082819046101150206595775671303272247314453125
+          text: text
+          id: 6
+        - score: 0.80082819046101150206595775671303272247314453125
+          text: text
+          id: 6
+    upload_document_input:
+      type: object
+      properties:
+        text:
+          type: string
+          format: string
+    get_document_output:
+      type: object
+      properties:
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/get_document_output_chunks'
+        id:
+          type: integer
+      example:
+        chunks:
+        - text: text
+        - text: text
+        id: 0
+    upload_document_output:
+      type: object
+      properties:
+        id:
+          type: string
+          format: string
+      example:
+        id: id
+    search_output_results:
+      type: object
+      properties:
+        text:
+          type: string
+        score:
+          type: number
+        id:
+          type: integer
+      example:
+        score: 0.80082819046101150206595775671303272247314453125
+        text: text
+        id: 6
+    get_document_output_chunks:
+      type: object
+      properties:
+        text:
+          type: string
+      example:
+        text: text
+
