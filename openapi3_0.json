@@ -61,7 +61,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/cross_encoder_output"
+                  "$ref": "#/components/schemas/search_output"
                 }
               }
             }
@@ -116,7 +116,7 @@
           }
         }
       },
-      "cross_encoder_output": {
+      "search_output": {
         "type": "object",
         "properties": {
           "results": {
@@ -130,7 +130,7 @@
                 "score": {
                   "type": "number"
                 },
-                "index": {
+                "id": {
                   "type": "integer"
                 }
               }
@@ -140,7 +140,7 @@
             "type": "string",
             "format": "string"
           },
-          "cross-encoder_model-name": {
+          "llm": {
             "type": "string",
             "format": "string"
           }
