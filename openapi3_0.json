@@ -146,24 +146,6 @@
           }
         }
       },
-      "new_corpus_output": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "string"
-          }
-        }
-      },
-      "delete_corpus_output": {
-        "type": "object",
-        "properties": {
-          "corpus-id": {
-            "type": "string",
-            "format": "string"
-          }
-        }
-      },
       "document_input": {
         "type": "object",
         "properties": {
