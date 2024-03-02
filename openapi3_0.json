@@ -1,0 +1,220 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Coding Challenge: NL Search",
+    "description": "Coding Challenge: Natural Language Search"
+  },
+  "paths": {
+    "/api/v1/documents": {
+      "post": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sentence_input"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Upload plain text document"
+        ],
+        "summary": "Returns newly created store ID of uploaded document",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/embedding_output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed. Bad input."
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "tags": [
+          "Search documents using Natural Language"
+        ],
+        "summary": "Returns answer to asked question including document store IDs, which contain text the answer is based on",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cross_encoder_output"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed. Bad input."
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{id}": {
+      "summary": "Get content of a particular document from document store",
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of document",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "tags": [
+          "Get document"
+        ],
+        "summary": "Returns content of a particular document from document store",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "cross_encoder_input": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "format": "string"
+          },
+          "texts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "cross_encoder_output": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number"
+                },
+                "index": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "query": {
+            "type": "string",
+            "format": "string"
+          },
+          "cross-encoder_model-name": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "new_corpus_output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "delete_corpus_output": {
+        "type": "object",
+        "properties": {
+          "corpus-id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "sentence_input": {
+        "type": "object",
+        "properties": {
+          "sentence": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "similar_sentences_output": {
+        "type": "object",
+        "properties": {
+          "similar-sentences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sentence": {
+                  "type": "string"
+                },
+                "ext_id": {
+                  "type": "string"
+                },
+                "distance": {
+                  "type": "number"
+                },
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "submitted-sentence": {
+            "type": "string",
+            "format": "string"
+          },
+          "version": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "embedding_output": {
+        "type": "object",
+        "properties": {
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "sentence": {
+            "type": "string",
+            "format": "string"
+          },
+          "model-name": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    }
+  }
+}
