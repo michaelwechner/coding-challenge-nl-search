@@ -2,7 +2,7 @@
 
 ## REST Interfaces
 
-See https://github.com/michaelwechner/coding-challenge-nl-search/blob/main/openapi3_0.json
+See https://raw.githubusercontent.com/michaelwechner/coding-challenge-nl-search/main/openapi3_0.json
 
 - Upload plain text document(s)
 - Search documents(s) using natural language
