@@ -13,7 +13,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/document_input"
+                "$ref": "#/components/schemas/upload_document_input"
               }
             }
           }
@@ -93,7 +93,14 @@
         "summary": "Returns content of a particular document from document store",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/get_document_output"
+                }
+              }
+            }
           }
         }
       }
@@ -101,21 +108,6 @@
   },
   "components": {
     "schemas": {
-      "cross_encoder_input": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string",
-            "format": "string"
-          },
-          "texts": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "search_output": {
         "type": "object",
         "properties": {
@@ -146,7 +138,7 @@
           }
         }
       },
-      "document_input": {
+      "upload_document_input": {
         "type": "object",
         "properties": {
           "text": {
@@ -155,36 +147,22 @@
           }
         }
       },
-      "similar_sentences_output": {
+      "get_document_output": {
         "type": "object",
         "properties": {
-          "similar-sentences": {
+          "chunks": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "sentence": {
+                "text": {
                   "type": "string"
-                },
-                "ext_id": {
-                  "type": "string"
-                },
-                "distance": {
-                  "type": "number"
-                },
-                "id": {
-                  "type": "integer"
                 }
               }
             }
           },
-          "submitted-sentence": {
-            "type": "string",
-            "format": "string"
-          },
-          "version": {
-            "type": "string",
-            "format": "string"
+          "id": {
+            "type": "integer"
           }
         }
       },
