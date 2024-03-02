@@ -13,7 +13,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/sentence_input"
+                "$ref": "#/components/schemas/document_input"
               }
             }
           }
@@ -41,6 +41,16 @@
     },
     "/api/v1/search": {
       "get": {
+        "parameters": [
+          {"name":"query",
+            "description": "Question, e.g. 'When was Michael born?'",
+            "required": true,
+            "in":"query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "tags": [
           "Search documents using Natural Language"
         ],
@@ -154,10 +164,10 @@
           }
         }
       },
-      "sentence_input": {
+      "document_input": {
         "type": "object",
         "properties": {
-          "sentence": {
+          "text": {
             "type": "string",
             "format": "string"
           }
