@@ -28,7 +28,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/embedding_output"
+                  "$ref": "#/components/schemas/upload_document_output"
                 }
               }
             }
@@ -188,20 +188,10 @@
           }
         }
       },
-      "embedding_output": {
+      "upload_document_output": {
         "type": "object",
         "properties": {
-          "embedding": {
-            "type": "array",
-            "items": {
-              "type": "number"
-            }
-          },
-          "sentence": {
-            "type": "string",
-            "format": "string"
-          },
-          "model-name": {
+          "id": {
             "type": "string",
             "format": "string"
           }
