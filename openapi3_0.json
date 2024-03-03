@@ -82,8 +82,7 @@
             "description": "ID of document",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],

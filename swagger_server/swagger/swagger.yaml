@@ -69,8 +69,7 @@ paths:
         style: simple
         explode: false
         schema:
-          type: integer
-          format: int64
+          type: string
       responses:
         "200":
           description: OK
