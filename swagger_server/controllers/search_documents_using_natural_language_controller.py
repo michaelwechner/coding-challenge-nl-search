@@ -8,6 +8,8 @@ from swagger_server import util
 from flask import jsonify
 from swagger_server.models.hit import Hit
 from astrapy.db import AstraDB
+from openai import OpenAI
+from cohere import Client
 
 
 def api_v1_search_get(query):  # noqa: E501
@@ -32,8 +34,14 @@ def api_v1_search_get(query):  # noqa: E501
     print(f"DB Collection Name: {db_collection_name}")
 
     collection = db.collection(db_collection_name)
-    # TODO: Get Embedding for query text
-    query_embedding = [0.1, 0.15, 0.3, 0.12, 0.05]
+
+    cohere = Client(api_key=os.environ.get("COHERE_API_KEY"))
+    texts=[query]
+    #texts=[query, "Hello World"]
+    embeddings = cohere.embed(texts=texts, model="embed-multilingual-v2.0") # Length: 768
+
+    query_embedding = embeddings.embeddings[0]
+    #query_embedding = [0.1, 0.15, 0.3, 0.12, 0.05]
     db_results = collection.vector_find(vector=query_embedding, limit=10)
     hits = []
     for document in db_results:
