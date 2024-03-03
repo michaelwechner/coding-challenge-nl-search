@@ -3,7 +3,7 @@
 import json
 
 class Hit(dict):
-    def __init__(self, text: str=None, score: float=None, id: int=None):
+    def __init__(self, text: str=None, score: float=None, id: str=None):
         dict.__init__(self, text=text, score=score, id=id)
         self.text = text
         self.score = score
