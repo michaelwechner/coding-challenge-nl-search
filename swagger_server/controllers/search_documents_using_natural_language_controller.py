@@ -4,6 +4,8 @@ import six
 from swagger_server.models.search_output import SearchOutput  # noqa: E501
 from swagger_server import util
 
+from flask import jsonify
+
 
 def api_v1_search_get(query):  # noqa: E501
     """Returns answer to asked question including document store IDs, which contain text the answer is based on
@@ -15,4 +17,6 @@ def api_v1_search_get(query):  # noqa: E501
 
     :rtype: SearchOutput
     """
-    return 'do some magic!'
+
+    response = {'query': query, 'llm':'TODO', 'results':'[{id=5, score=0.8767, text=text}]'}
+    return jsonify(response)
