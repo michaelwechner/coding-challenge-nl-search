@@ -5,3 +5,4 @@ setuptools >= 21.0.0
 swagger-ui-bundle >= 0.0.2
 python-dotenv==1.0.1
 astrapy
+openai
