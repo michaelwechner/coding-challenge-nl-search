@@ -1,3 +1,5 @@
+# Search Result Hit
+
 import json
 
 class Hit(dict):
