@@ -1,6 +1,7 @@
 import connexion
 import six
 import os
+import uuid
 
 from swagger_server.models.upload_document_input import UploadDocumentInput  # noqa: E501
 from swagger_server.models.upload_document_output import UploadDocumentOutput  # noqa: E501
@@ -43,9 +44,9 @@ def api_v1_documents_post(body=None):  # noqa: E501
     )
     print(db)
 
-    id = 46
+    id = str(uuid.uuid4())
     print(f"Insert text: {body.text}")
-    documents = [{"_id": str(id),"text": body.text}]
+    documents = [{"_id": id,"text": body.text}]
     collection = db.collection(db_collection_name)
     res = collection.insert_many(documents)
 
