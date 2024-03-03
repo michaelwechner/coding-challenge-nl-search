@@ -34,12 +34,14 @@ def api_v1_documents_id_get(id_):  # noqa: E501
     collection = db.collection(db_collection_name)
     print(f"Get document {id_} ...")
     results = collection.find({"_id": id_})
+    chunks = []
     for document in results["data"]["documents"]:
-        print(document)
+        print(document['text'])
+        chunks.append(document['text'])
 
-    chunk1 = Chunk('Michael was born 1969')
-    chunk2 = Chunk('Michael was born in St. Gallen')
-    chunks = [chunk1, chunk2]
+    #chunk1 = Chunk('Michael was born 1969')
+    #chunk2 = Chunk('Michael was born in St. Gallen')
+    #chunks = [chunk1, chunk2]
 
     response = {'id': id_, 'chunks': chunks}
     return jsonify(response)
