@@ -32,11 +32,13 @@ def api_v1_search_get(query):  # noqa: E501
     print(f"DB Collection Name: {db_collection_name}")
 
     collection = db.collection(db_collection_name)
-    db_results = collection.find({"text":"Vanya was born 2001"})
+    # TODO: Get Embedding for query text
+    query_embedding = [0.1, 0.15, 0.3, 0.12, 0.05]
+    db_results = collection.vector_find(vector=query_embedding, limit=10)
     hits = []
-    for document in db_results["data"]["documents"]:
-        print(document['text'])
-        hit = Hit(document['text'], 0.8689, document['_id'])
+    for document in db_results:
+        print(document)
+        hit = Hit(document['text'], document['$similarity'], document['_id'])
         hits.append(hit)
 
     #hit1 = Hit('Michael was born 1969', 0.8689, 56)

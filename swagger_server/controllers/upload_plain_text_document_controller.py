@@ -46,7 +46,9 @@ def api_v1_documents_post(body=None):  # noqa: E501
 
     id = str(uuid.uuid4())
     print(f"Insert text: {body.text}")
-    documents = [{"_id": id,"text": body.text}]
+    # TODO: Get embedding for text
+    embedding = [0.1, 0.15, 0.3, 0.12, 0.05]
+    documents = [{"_id": id,"text": body.text, "$vector": embedding}]
     collection = db.collection(db_collection_name)
     res = collection.insert_many(documents)
 
