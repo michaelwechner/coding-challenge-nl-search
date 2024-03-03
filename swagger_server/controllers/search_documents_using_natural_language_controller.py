@@ -47,5 +47,7 @@ def api_v1_search_get(query):  # noqa: E501
     #hits = [hit1, hit2, hit3]
     ##hits = [hit1.text, hit2.text, hit3.text]
 
+    # TODO: Use completion to generate answer: https://github.com/openai/openai-python
+
     response = {'query': query, 'llm': 'TODO: For example Mistral', 'results': hits}
     return jsonify(response)
