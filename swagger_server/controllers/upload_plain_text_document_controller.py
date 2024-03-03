@@ -5,6 +5,8 @@ from swagger_server.models.upload_document_input import UploadDocumentInput  # n
 from swagger_server.models.upload_document_output import UploadDocumentOutput  # noqa: E501
 from swagger_server import util
 
+from flask import jsonify
+
 
 def api_v1_documents_post(body=None):  # noqa: E501
     """Returns newly created store ID of uploaded document
@@ -18,4 +20,7 @@ def api_v1_documents_post(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = UploadDocumentInput.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'TODO:Return document ID'
+
+    id = 45
+    response = {'id': id}
+    return jsonify(response)
