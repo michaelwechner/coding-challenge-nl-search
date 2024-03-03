@@ -18,5 +18,5 @@ def api_v1_search_get(query):  # noqa: E501
     :rtype: SearchOutput
     """
 
-    response = {'query': query, 'llm':'TODO', 'results':'[{id=5, score=0.8767, text=text}]'}
+    response = {'query': query, 'llm':'TODO: For example Mistral', 'results':'[{id=5, score=0.8767, text=text}]'}
     return jsonify(response)
