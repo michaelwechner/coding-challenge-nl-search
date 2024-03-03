@@ -18,4 +18,4 @@ def api_v1_documents_post(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = UploadDocumentInput.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return 'TODO:Return document ID'
