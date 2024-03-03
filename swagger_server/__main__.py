@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
 import connexion
+import os
+from dotenv import load_dotenv
 
 from swagger_server import encoder
 
+load_dotenv(override=True)
 
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
