@@ -33,6 +33,9 @@ def api_v1_documents_post(body=None):  # noqa: E501
     api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT")
     print(f"API Endpoint: {api_endpoint}")
 
+    db_collection_name=os.getenv("ASTRA_DB_COLLECTION")
+    print(f"DB Collection Name: {db_collection_name}")
+
     db = AstraDB(
         token=token,
         api_endpoint=api_endpoint,
@@ -40,6 +43,11 @@ def api_v1_documents_post(body=None):  # noqa: E501
     )
     print(db)
 
-    id = 45
+    id = 46
+    print(f"Insert text: {body.text}")
+    documents = [{"_id": str(id),"text": body.text}]
+    collection = db.collection(db_collection_name)
+    res = collection.insert_many(documents)
+
     response = {'id': id}
     return jsonify(response)
