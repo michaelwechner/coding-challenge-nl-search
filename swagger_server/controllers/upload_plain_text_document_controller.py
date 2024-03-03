@@ -1,11 +1,13 @@
 import connexion
 import six
+import os
 
 from swagger_server.models.upload_document_input import UploadDocumentInput  # noqa: E501
 from swagger_server.models.upload_document_output import UploadDocumentOutput  # noqa: E501
 from swagger_server import util
 
 from flask import jsonify
+from astrapy.db import AstraDB
 
 
 def api_v1_documents_post(body=None):  # noqa: E501
@@ -20,6 +22,23 @@ def api_v1_documents_post(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = UploadDocumentInput.from_dict(connexion.request.get_json())  # noqa: E501
+
+    #token=os.environ["ASTRA_DB_APPLICATION_TOKEN"]
+    #token=os.environ.get("ASTRA_DB_APPLICATION_TOKEN")
+    token=os.getenv("ASTRA_DB_APPLICATION_TOKEN")
+    print(f"Token: {token}")
+
+    #api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"]
+    #api_endpoint=os.environ.get("ASTRA_DB_API_ENDPOINT")
+    api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT")
+    print(f"API Endpoint: {api_endpoint}")
+
+    db = AstraDB(
+        token=token,
+        api_endpoint=api_endpoint,
+        namespace="default_keyspace",
+    )
+    print(db)
 
     id = 45
     response = {'id': id}
