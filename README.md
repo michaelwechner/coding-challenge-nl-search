@@ -15,9 +15,11 @@ This example uses the [Connexion](https://github.com/zalando/connexion) library 
 Python 3.10.8
 
 ## Usage
-Please make sure to set the Datastax Astra Token and Embedding API Key inside:
+Please make sure to set the Datastax Astra Token and Embedding API Key inside the file:
 
--.env
+```
+.env
+```
 
 To run the server, please execute the following from the root directory:
 
