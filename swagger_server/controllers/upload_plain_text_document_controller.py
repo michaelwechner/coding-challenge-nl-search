@@ -9,8 +9,7 @@ from swagger_server import util
 
 from flask import jsonify
 from astrapy.db import AstraDB
-from openai import OpenAI
-from cohere import Client
+from swagger_server.services.ai import AI
 
 
 def api_v1_documents_post(body=None):  # noqa: E501
@@ -49,22 +48,8 @@ def api_v1_documents_post(body=None):  # noqa: E501
     print(f"Insert text: {body.text}")
     id = str(uuid.uuid4())
 
-    # TODO: Make embedding model 'text-embedding-ada-002' or 'embed-multilingual-v3.0' configurable
-
-    # https://cohere-sdk.readthedocs.io/en/latest/cohere.html#cohere.client.Client.embed resp. https://docs.cohere.com/reference/embed
-    cohere = Client(api_key=os.environ.get("COHERE_API_KEY"))
-    texts=[body.text]
-    #texts=[body.text, "Hello World"]
-    embeddings = cohere.embed(texts=texts, model="embed-multilingual-v2.0") # Length: 768
-    #embeddings = cohere.embed(texts=texts, model="embed-multilingual-v3.0", input_type="search_document") # Length: 1024
-    print(f"Cohere Embeddings: {embeddings}")
-    embedding = embeddings.embeddings[0]
+    embedding = AI.getEmbedding(body.text, input_type="search_document")
     print(f"Vector embedding dimension: {len(embedding)}")
-
-    #client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-    #embedding = client.embeddings.create(input=body.text, model="text-embedding-ada-002")
-
-    #embedding = [0.1, 0.15, 0.3, 0.12, 0.05]
 
     documents = [{"_id": id,"text": body.text, "$vector": embedding}]
     print(f"Insert document(s): {documents}")
