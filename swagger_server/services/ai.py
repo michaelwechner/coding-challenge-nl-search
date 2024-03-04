@@ -10,15 +10,15 @@ class AI(dict):
         # TODO: Singleton
         self.cohere = Client(api_key=os.environ.get("COHERE_API_KEY"))
 
-    def getEmbedding(self, text: str=None, input_type: str="search_document"):
+    def getEmbedding(self, text: str, input_type: str="search_document"):
         # TODO: Make embedding model 'text-embedding-ada-002' or 'embed-multilingual-v3.0' configurable
 
         # INFO: Cohere implementation
         texts = [text]
         #texts = [text, "Hello World"]
-        cohere = Client(api_key=os.environ.get("COHERE_API_KEY"))
+        print(f"Get embeddings for texts '{texts}' ...")
         # https://cohere-sdk.readthedocs.io/en/latest/cohere.html#cohere.client.Client.embed resp. https://docs.cohere.com/reference/embed
-        embeddings = cohere.embed(texts=texts, model="embed-multilingual-v2.0") # Length: 768
+        embeddings = self.cohere.embed(texts=texts, model="embed-multilingual-v2.0") # Length: 768
         #embeddings = self.cohere.embed(texts=texts, model="embed-multilingual-v2.0") # Length: 768
         #print(f"Cohere Embeddings: {embeddings}")
         embedding = embeddings.embeddings[0]

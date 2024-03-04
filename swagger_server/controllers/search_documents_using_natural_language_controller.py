@@ -35,7 +35,7 @@ def api_v1_search_get(query):  # noqa: E501
     collection = db.collection(db_collection_name)
 
     print(f"Get embedding for query text '{query}' ...")
-    query_embedding = AI.getEmbedding(query, input_type="search_query")
+    query_embedding = AI().getEmbedding(text=query, input_type="search_query")
     print(f"Query embedding: {query_embedding}")
     db_results = collection.vector_find(vector=query_embedding, limit=10)
     hits = []

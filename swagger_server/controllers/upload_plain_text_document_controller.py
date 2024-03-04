@@ -48,7 +48,7 @@ def api_v1_documents_post(body=None):  # noqa: E501
     print(f"Insert text: {body.text}")
     id = str(uuid.uuid4())
 
-    embedding = AI.getEmbedding(body.text, input_type="search_document")
+    embedding = AI().getEmbedding(body.text, input_type="search_document")
     print(f"Vector embedding dimension: {len(embedding)}")
 
     documents = [{"_id": id,"text": body.text, "$vector": embedding}]
