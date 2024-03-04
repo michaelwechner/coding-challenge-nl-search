@@ -34,11 +34,13 @@ def api_v1_search_get(query):  # noqa: E501
 
     collection = db.collection(db_collection_name)
 
+    print(f"Get embedding for query text '{query}' ...")
     query_embedding = AI.getEmbedding(query, input_type="search_query")
+    print(f"Query embedding: {query_embedding}")
     db_results = collection.vector_find(vector=query_embedding, limit=10)
     hits = []
     for document in db_results:
-        print(document)
+        print(f"Found document: {document}")
         hit = Hit(document['text'], document['$similarity'], document['_id'])
         hits.append(hit)
 
