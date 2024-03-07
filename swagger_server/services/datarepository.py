@@ -46,9 +46,9 @@ class DataRepository(dict):
 
         return id
 
-    def getText(self, id_: str):
-        print(f"Get document {id_} ...")
-        results = self.collection.find({"_id": id_})
+    def getText(self, id: str):
+        print(f"Get document {id} ...")
+        results = self.collection.find({"_id": id})
         chunks = []
         for document in results["data"]["documents"]:
             print(document['text'])

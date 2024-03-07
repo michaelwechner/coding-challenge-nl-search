@@ -16,7 +16,7 @@ def api_v1_documents_id_get(id_):  # noqa: E501
     :rtype: GetDocumentOutput
     """
 
-    chunks = DataRepository().getText(id_=id_)
+    chunks = DataRepository().getText(id=id_)
 
     #chunk1 = Chunk('Michael was born 1969')
     #chunk2 = Chunk('Michael was born in St. Gallen')
