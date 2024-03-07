@@ -47,8 +47,15 @@ class DataRepository(dict):
         return id
 
     def getText(self, id: str):
-        print(f"Get document {id} ...")
+        print(f"Get document '{id}' ...")
         results = self.collection.find({"_id": id})
+        # INFO: If ID does not exist, then Astra returns {'data': {'documents': [], 'nextPageState': None}}
+        print(f"DB Results: {results}")
+
+        if len(results["data"]["documents"]) == 0:
+            print(f"WARN: No document for ID '{id}'!")
+            return None
+
         chunks = []
         for document in results["data"]["documents"]:
             print(document['text'])

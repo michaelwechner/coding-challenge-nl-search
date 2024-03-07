@@ -17,6 +17,9 @@ def api_v1_documents_id_get(id_):  # noqa: E501
     """
 
     chunks = DataRepository().getText(id=id_)
+    if chunks == None:
+        response = {'error-message': 'No such document!'}
+        return jsonify(response), 404
 
     #chunk1 = Chunk('Michael was born 1969')
     #chunk2 = Chunk('Michael was born in St. Gallen')
