@@ -1,5 +1,7 @@
 # AI Service
 
+import uuid
+
 import os
 
 from astrapy.db import AstraDB
@@ -8,6 +10,16 @@ from swagger_server.models.hit import Hit
 
 class DataRepository(dict):
     def __init__(self):
+        #token=os.environ["ASTRA_DB_APPLICATION_TOKEN"]
+        #token=os.environ.get("ASTRA_DB_APPLICATION_TOKEN")
+        token=os.getenv("ASTRA_DB_APPLICATION_TOKEN")
+        print(f"Token: {token}")
+
+        #api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"]
+        #api_endpoint=os.environ.get("ASTRA_DB_API_ENDPOINT")
+        api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT")
+        print(f"API Endpoint: {api_endpoint}")
+
         # TODO: Singleton
         self.db = AstraDB(
             token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
@@ -20,6 +32,19 @@ class DataRepository(dict):
         print(f"DB Collection Name: {db_collection_name}")
 
         self.collection = self.db.collection(db_collection_name)
+
+    def memorizeText(self, text: str):
+        print(f"Insert text: {text}")
+        id = str(uuid.uuid4())
+
+        embedding = AI().getEmbedding(text, input_type="search_document")
+        print(f"Vector embedding dimension: {len(embedding)}")
+
+        documents = [{"_id": id,"text": text, "$vector": embedding}]
+        print(f"Insert document(s): {documents}")
+        res = self.collection.insert_many(documents)
+
+        return id
 
     def search(self, query: str):
         print(f"Get embedding for query text '{query}' ...")
