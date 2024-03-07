@@ -46,6 +46,16 @@ class DataRepository(dict):
 
         return id
 
+    def getText(self, id_: str):
+        print(f"Get document {id_} ...")
+        results = self.collection.find({"_id": id_})
+        chunks = []
+        for document in results["data"]["documents"]:
+            print(document['text'])
+            chunks.append(document['text'])
+
+        return chunks
+
     def search(self, query: str):
         print(f"Get embedding for query text '{query}' ...")
         query_embedding = AI().getEmbedding(text=query, input_type="search_query")
