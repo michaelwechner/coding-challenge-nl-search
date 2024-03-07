@@ -1,14 +1,8 @@
-import connexion
-import six
-import os
-
 from swagger_server.models.search_output import SearchOutput  # noqa: E501
-from swagger_server import util
 
 from flask import jsonify
 from swagger_server.models.hit import Hit
-from astrapy.db import AstraDB
-from swagger_server.services.ai import AI
+from swagger_server.services.datarepository import DataRepository
 
 
 def api_v1_search_get(query):  # noqa: E501
@@ -22,27 +16,8 @@ def api_v1_search_get(query):  # noqa: E501
     :rtype: SearchOutput
     """
 
-    db = AstraDB(
-        token=os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
-        api_endpoint=os.getenv("ASTRA_DB_API_ENDPOINT"),
-        namespace="default_keyspace",
-    )
-    print(db)
+    hits = DataRepository().search(query=query)
 
-    db_collection_name=os.getenv("ASTRA_DB_COLLECTION")
-    print(f"DB Collection Name: {db_collection_name}")
-
-    collection = db.collection(db_collection_name)
-
-    print(f"Get embedding for query text '{query}' ...")
-    query_embedding = AI().getEmbedding(text=query, input_type="search_query")
-    print(f"Query embedding: {query_embedding}")
-    db_results = collection.vector_find(vector=query_embedding, limit=10)
-    hits = []
-    for document in db_results:
-        print(f"Found document: {document}")
-        hit = Hit(document['text'], document['$similarity'], document['_id'])
-        hits.append(hit)
 
     #hit1 = Hit('Michael was born 1969', 0.8689, 56)
     #hit2 = Hit('Michael was born in St. Gallen', 0.5427, 34)
